@@ -1,5 +1,11 @@
 package eu.ooffee.fcconnect;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import org.eclipse.jetty.util.log.Log;
+
 public class FcParamConfig {
 	
 	private String tokenUri;
@@ -12,26 +18,38 @@ public class FcParamConfig {
 	private String state;
 	private String verifParameterId;
 	private String verifParameterValue;
+
 	
-	public FcParamConfig(String tokenUri, 
-			String authorizationUri, 
-			String redirectUri,
-			String userInfoUri, 
-			String clientId, 
-			String clientSecret,
-			String scope,
-			String state, String verifParameterId, String verifParameterValue) {
+	public FcParamConfig(String tokenUri, String authorizationUri,
+			String userInfoUri, String clientId, String clientSecret,
+			String redirectUri, String scope, String state,
+			String verifParameterId, String verifParameterValue) {
 		super();
 		this.tokenUri = tokenUri;
 		this.authorizationUri = authorizationUri;
-		this.redirectUri = redirectUri;
 		this.userInfoUri = userInfoUri;
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
+		this.redirectUri = redirectUri;
 		this.scope = scope;
 		this.state = state;
 		this.verifParameterId = verifParameterId;
 		this.verifParameterValue = verifParameterValue;
+	}
+
+	public FcParamConfig(Properties prop) throws IOException {
+		super();					
+		
+		this.tokenUri = prop.getProperty("tokenUri");
+		this.authorizationUri = prop.getProperty("authorizationUri");
+		this.redirectUri = prop.getProperty("redirectUri");
+		this.userInfoUri = prop.getProperty("userInfoUri");
+		this.clientId = prop.getProperty("clientId");
+		this.clientSecret = prop.getProperty("clientSecret");
+		this.scope = prop.getProperty("scope");
+		this.state = prop.getProperty("state");
+		this.verifParameterId = prop.getProperty("verifParameterId");
+		this.verifParameterValue = prop.getProperty("verifParameterValue");    		
 	}
 
 	public String getTokenUri() {

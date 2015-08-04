@@ -24,7 +24,6 @@ mvn clean install
     
 ```
 
-
 # usage example : 
 
 Configure your variables, connexions informations and init the configuration object and connection helper.
@@ -44,6 +43,12 @@ String verifParameterValue = "toto";
     
 protected FcParamConfig fpc = new FcParamConfig(tokenUri, authorizationUri, redirectUri, userInfoUri, clientId, clientSecret, scope, state, verifParameterId, verifParameterValue);
 
+Or use a properties file :
+String filename = "config.properties";
+Properties prop = new Properties();
+prop.load(getClass().getClassLoader().getResourceAsStream(filename));
+protected FcParamConfig fpc = new FcParamConfig(prop);
+
 protected FcConnection fcc = new FcConnection(fpc);
     
 ```
@@ -61,3 +66,15 @@ String accessToken = fcc.getAccessToken(request);
 String userInfo = fcc.getUserInfo(accessToken);
 		
 ```
+
+This project comes with an embedded Jetty Server to test the connexion.
+Just launch mvn jetty:run to start the server.
+The Servlet FCConnectServlet creates the connexion URL and display the login link, just go to http://localhost:8080/<fcconnectservletpath>
+The Servlet FCCallbackServlet is the callback that get the token, get user infos and displays user infos.
+
+Please adapt the web.xml to define a path corresponding to your callback test url in the Callback servlet
+
+  <servlet-mapping>
+    <servlet-name>Callback</servlet-name>
+    <url-pattern>/c/portal/openidconnect/callback/*</url-pattern>
+  </servlet-mapping>
